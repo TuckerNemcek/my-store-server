@@ -13,11 +13,11 @@ app.use(morgan('dev'))
 
 // Routes
 app.get('/api/test', (req, res, next)=>{
-    res.json({
-        message: 'Route working'
-    })
-    const error = new Error('it blew up')
-    next(error)
+  res.json({
+    message: 'Route working'
+  })
+  const error = new Error('it blew up')
+  next(error)
 })
 
 //Error handling
@@ -25,15 +25,16 @@ app.get('/api/test', (req, res, next)=>{
 app.use(notFound)
 app.use(errorHandler)
 
+// eslint-disable-next-line
 function notFound(req, res, next) {
-    res.status(404).send({error: 'Not found!', status: 404, url: req.originalUrl})
+  res.status(404).send({error: 'Not found!', status: 404, url: req.originalUrl})
 }
 
 // eslint-disable-next-line
 function errorHandler(err, req, res, next) {
-    console.error('ERROR', err)
-    const stack =  process.env.NODE_ENV !== 'production' ? err.stack : undefined
-    res.status(500).send({error: err.message, stack, url: req.originalUrl})
+  console.error('ERROR', err)
+  const stack =  process.env.NODE_ENV !== 'production' ? err.stack : undefined
+  res.status(500).send({error: err.message, stack, url: req.originalUrl})
 }
 
 
@@ -41,5 +42,5 @@ function errorHandler(err, req, res, next) {
 
 
 app.listen(PORT, () => {
-    console.log(`Server running on port: ${PORT}`)
+  console.log(`Server running on port: ${PORT}`)
 })
