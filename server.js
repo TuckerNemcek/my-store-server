@@ -1,3 +1,4 @@
+
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
@@ -12,7 +13,7 @@ app.use(morgan('dev'))
 // Sequelize Models
 const db = require('./models')
 const Category = db.Category
-const Product =db.Product
+const Product = db.Product
 
 // Router files
 
@@ -28,7 +29,7 @@ app.get('/api/test', (req, res) => {
 
 app.get('/api/categories', (req, res, next) => {
   Category.findAll({
-    include: [{model: Product}]
+    include: [{ model: Product }]
   })
     .then(categories => {
       res.json({
@@ -38,6 +39,37 @@ app.get('/api/categories', (req, res, next) => {
     .catch(error => {
       next(error)
     })
+})
+
+app.get('/api/products', (req, res, next) => {
+  Product.findAll({
+    include: [{ model: Category }]
+  })
+    .then(products => {
+      res.json({
+        products
+      })
+    })
+    .catch(error => {
+      next(error)
+    })
+})
+// eslint-disable-next-line
+app.get('/api/products/:id', (req, res, next) => {
+  const id = req.params.id
+
+  Product.findByPk(id, {
+    include: [{ model: Category }]
+  })
+    .then(product => {
+      res.json({
+        product
+      })
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
 })
  
 // Error handling
